@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.campus.myapp.dao.ReviewDAO">
+  	<insert id="reviewInsert">
+  		insert into review(clubno, userid, username, hit, subject, content, ip, people, link, visitdate, location, revisit, score) 
+  		values( ${clubno}, #{userid}, #{username}, ${hit}, #{subject}, #{content}, #{ip}, ${people}, #{link}, #{visitdate}, #{location}, #{revisit}, ${score})
+  	</insert>
+  	<select id="reviewSelect" resultType="com.campus.myapp.vo.ReviewVO">
+  		select no,userid, username, content, date_format(writedate,'%Y-%m-%d') writedate, people, hit, subject,
+  				date_format(visitdate,'%Y-%m-%d') visitdate, location, revisit, score ,link
+  		from review
+  		where clubno=${param1}
+  	</select>
+  	<select id="reviewSelectOne" resultType="com.campus.myapp.vo.ReviewVO">
+  		select no, clubno, userid, username, content, date_format(writedate,'%Y-%m-%d') writedate, hit, subject, people,
+  				date_format(visitdate,'%Y-%m-%d') visitdate, location, revisit, score ,link
+  		from review
+  		where no=${param1} and clubno=${param2}
+  	</select>
+  	<delete id="reviewDelete">
+  		delete from review where no=#{param1}
+  	</delete>
+  	<update id="reviewUpdate">
+  		update review set subject=#{subject}, content=#{content} ,people=${people}, link=#{link}, visitdate=#{visitdate}, location=#{location}, revisit=#{revisit},score=${score} 
+  	    where no=${no} and userid=#{userid}
+  	</update>
+  	<update id="reviewUpdateUsername">
+  		update review 
+  		set username=#{param2}
+  		where userid=#{param1}
+  	</update>
+
+  </mapper>

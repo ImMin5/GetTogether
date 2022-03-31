@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.campus.myapp.dao.ClubMemberDAO">
+  	<insert id="clubMemberInsert">
+  		insert into clubmember(clubno, clubid, userid, username)
+  		values(${clubno}, #{clubid}, #{userid} , #{username})
+  	</insert>
+  	<select id="clubMemberSelect" resultType="com.campus.myapp.vo.ClubMemberVO">
+  		select no,clubno, clubid, userid ,username,joindate from clubmember
+  		where userid=#{param1}
+  	</select>
+  	<select id="clubMemberCheck" resultType="int">
+  		select count(no) from clubmember
+  		where userid=#{param1} and clubno=${param2}
+  	</select>
+  	<select id="clubMemberSelectOne" resultType="com.campus.myapp.vo.ClubMemberVO">
+  		select no, clubno, clubid, userid, username, joindate from clubmember
+  		where userid=#{param1} and clubno=${param2}
+  	</select>
+  	<select id="clubMemberSelectAll" resultType="com.campus.myapp.vo.ClubMemberVO">
+  		select no, clubno, clubid, userid, username, joindate from clubmember
+  		where clubno=${param1}
+  	</select>
+  	<update id="clubMemberUpdateUsername">
+  		update clubmember
+  		set username=#{param2}
+  		where userid=#{param1}
+  	</update>
+  </mapper>

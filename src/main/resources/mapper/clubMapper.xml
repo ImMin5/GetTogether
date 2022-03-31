@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.campus.myapp.dao.ClubDAO">
+  	<insert id="clubInsert">
+  		insert into club(clubid, clubadmin, ispublic,clubthumbnail,description)
+  		values(#{clubid}, #{clubadmin},${ispublic}, #{clubthumbnail}, #{description})
+  	</insert>
+  	<select id="clubSelect" resultType="com.campus.myapp.vo.ClubVO">
+  		select no, clubid, clubadmin, clubpost, clubmember, clubnotice, date_format(createdate,'%Y.%m.%d') createdate, 
+  			 clubthumbnail,description,ispublic
+  		from club
+  		where no in (select clubno from clubmember where userid=#{param1})
+  	</select>
+  	<select id="clubSelectOne" resultType="com.campus.myapp.vo.ClubVO">
+  		select no, clubid, clubadmin, clubpost, clubmember, clubnotice, date_format(createdate,'%Y.%m.%d') createdate, 
+  			 clubthumbnail,description,ispublic
+  		from club
+  		where no=${param1}
+  	</select>
+  	<select id="clubSelectAdmin" resultType="com.campus.myapp.vo.ClubVO">
+  		select no ,clubid, clubadmin from club
+  		where clubadmin =#{param1} and clubid=#{param2}
+  	</select>
+  	<select id="clubSelectPublic" resultType="com.campus.myapp.vo.ClubVO">
+  		select no, clubid, clubadmin, clubpost, clubmember, date_format(createdate,'%Y-%m-%d') createdate
+  		,description, ispublic
+  		from club
+  		where ispublic=${param1} || clubid in (select clubid from clubmember where userid=#{param2})
+  	</select>
+  	<select id="clubSelectMember" resultType="com.campus.myapp.vo.ClubVO">
+  		select no, clubid, clubadmin, clubpost, clubmember, clubnotice, date_format(createdate,'%Y-%m-%d') createdate, 
+  			 clubthumbnail,description,ispublic
+  		from club
+  		where no=(select clubno from clubmember where userid=#{param1} and clubno=${param2})
+  	</select>
+  	<update id="clubUpdatePost">
+  		update club set clubpost = (select count(no) from review where clubno = #{param1}) where no=${parma1}
+  	</update>
+  	<update id="clubUpdateMember">
+  		update club set clubmember = (select count(no) from clubmember where clubno = #{param1}) where no=${parma1}
+  	</update>
+  	<insert id="clubInsertInvite" parameterType="com.campus.myapp.vo.ClubInviteVO">
+  		insert into clubinvite(userid, username, clubno, clubid, invite, submit, complete)
+  		values(#{userid}, #{username}, ${clubno}, #{clubid}, ${invite}, ${submit}, ${complete})
+  	</insert>
+  	<select id="clubInviteSelect" resultType="com.campus.myapp.vo.ClubInviteVO">
+  		select no , userid, username, clubno, clubid, invite, submit, complete, date_format(createdate,'%Y-%m-%d') createdate
+  		from clubinvite
+  		where userid=#{param1} and clubno=${param2}
+  	</select >
+  	<select id="clubInviteSelectIsInvite" resultType="com.campus.myapp.vo.ClubInviteVO">
+  		select no , userid, username, clubno, clubid, invite, submit, complete, date_format(createdate,'%Y-%m-%d %h:%m:%s') createdate
+  		from clubinvite
+  		where clubno=#{param1} and invite=${param2} and complete=false
+  	</select>
+  	<update id="clubInviteUpdateComplete">
+  		update clubinvite 
+  		set complete = true
+  		where no=${param1}
+  	</update>
+  	<update id="clubUpdateInfo">
+  		update club
+  		set clubid = #{clubid} , clubnotice=#{clubnotice} , clubadmin=#{clubadmin}
+  		where no=${no}
+  	</update>
+  	<select id="clubSelectName" resultType="int">
+  		select count(clubid) from club
+  		where clubid=#{param1}
+  	</select>
+  	<delete id="clubDeleteMember">
+  		delete from clubmember where no=${param1} and clubno=${param2}
+  	</delete>
+  	<update id="clubInviteUpdateUsername">
+  		update clubinvite
+  		set username=#{param2}
+  		where userid=#{param1}
+  	</update>
+  </mapper>
+  
