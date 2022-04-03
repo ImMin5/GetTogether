@@ -16,6 +16,11 @@
 
 ## API 명세
 - https://documenter.getpostman.com/view/12776988/UVysxGDi
+
+## ERD 다이어그램 
+- https://www.erdcloud.com/d/3e2iJzRm425NCM2Be
+![image](https://user-images.githubusercontent.com/38625842/161439498-6fa80b13-a289-49cf-9294-2526a51a00b5.png)
+
 ## 구현화면
  #### 1. 홈페이지
 ![1 홈페이지](https://user-images.githubusercontent.com/38625842/160858599-bfef89d4-65b6-427d-969b-5b1184871d89.png)
