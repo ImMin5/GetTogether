@@ -11,4 +11,5 @@ public interface ClubMemberService {
 	public ClubMemberVO clubMemberSelectOne(String userid, int clubno);
 	public List<ClubMemberVO> clubMemberSelectAll(int clubno);
 	public int clubMemberUpdateUsername(String userid, String username);
+	public int clubMemberDelete(String userid);
 }

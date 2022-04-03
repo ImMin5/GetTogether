@@ -1,5 +1,6 @@
 package com.campus.myapp.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -190,7 +192,35 @@ public class MemberController {
 		return entity;
 	}
 	
-	//
+	//회원 탈퇴
+	@DeleteMapping("/main/member")
+	public ResponseEntity<HashMap<String,String>> memberDelete(HttpSession session){
+		String userid = (String)session.getAttribute("logId");
+		ResponseEntity<HashMap<String,String>> entity = null;
+		HashMap<String,String> result = new HashMap<>();
+		
+		try {
+			if(service.memberIsAdmin(userid) > 0) {
+				result.put("msg","클럽장을 양도하세요");
+				entity = new ResponseEntity<HashMap<String,String>>(result,HttpStatus.BAD_REQUEST);
+			}
+			else {
+				System.out.println("클럽 멤버 삭제 : " + serviceCM.clubMemberDelete(userid));
+				System.out.println("회원탈퇴 : " + service.memberDelete(userid));
+
+				result.put("msg", "탈퇴가 완료되었습니다.");
+				result.put("redirect", "/");
+				session.invalidate();
+				entity = new ResponseEntity<HashMap<String,String>>(result,HttpStatus.OK);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			result.put("msg", "회원 탈퇴 오류...");
+			entity = new ResponseEntity<HashMap<String,String>>(result,HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
 	
 	//글 수정 메세지
 		public String getSuccessMessage(String msg, String url) {

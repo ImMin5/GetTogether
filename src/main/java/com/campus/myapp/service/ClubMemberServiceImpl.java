@@ -45,5 +45,10 @@ public class ClubMemberServiceImpl implements ClubMemberService {
 	public int clubMemberUpdateUsername(String userid, String username) {
 		return dao.clubMemberUpdateUsername(userid, username);
 	}
+
+	@Override
+	public int clubMemberDelete(String userid) {
+		return dao.clubMemberDelete(userid);
+	}
 	
 }

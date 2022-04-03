@@ -25,6 +25,26 @@
 	});
 	
 	$(document).ready(function(){
+		///회원 탈퇴 
+		$("#member_delete_btn").on("click",function(){
+			if(confirm("정말 탈퇴 하시겠습니까?")){
+				var url ="${url}/main/member";
+				
+				$.ajax({
+					url : url,
+					type : "Delete",
+					success : function(data){
+						alert(data.msg);
+						window.location.href=data.redirect;
+					},
+					error: function(error){
+						console.log(error.msg);
+						alert(error.msg);
+						window.location.reload;
+					}
+				})
+			}
+		});
 		//닉네임 중복검사
 		$("#username_check_btn").on('click',function(){
 
@@ -128,6 +148,7 @@
 		
 		if("${logName}" != username.val() && is_username_check == false){
 			console.log(username.val());
+			
 			alert("중복검사를 해주세요");
 			return false;
 		}
@@ -193,6 +214,7 @@
 					<input type="password" class="form-control" id="new_userpassword_check" name="new_userpassword_check" placeholder="변경할 비밀번호 확인"/>
 				</div>
 				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					<input type="button" class="btn" name="member_delete_btn" id="member_delete_btn" value="회원 탈퇴"/>
 					<input type="submit" class="btn" name="member_edit_btn" value="변경"/>
 				</div>
 			</form>

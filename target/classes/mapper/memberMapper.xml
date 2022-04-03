@@ -28,4 +28,10 @@
   		set username=#{username}, userpassword=#{userpassword} 
   		where userid=#{userid}
   	</update>
+  	<delete id="memberDelete">
+  		delete from member where userid=#{param1}
+  	</delete>
+  	<select id="memberIsAdmin" resultType="int">
+  		select count(clubadmin) from club where clubadmin=#{param1}
+  	</select>
   </mapper>

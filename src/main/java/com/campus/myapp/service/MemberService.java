@@ -9,4 +9,6 @@ public interface MemberService {
 	public int usernameCheck(String username);
 	public MemberVO memberSelectOne(String userid);
 	public int memberUpdate(MemberVO vo);
+	public int memberDelete(String userid);
+	public int memberIsAdmin(String clubadmin);
 }

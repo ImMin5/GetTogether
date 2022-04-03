@@ -28,4 +28,7 @@
   		set username=#{param2}
   		where userid=#{param1}
   	</update>
+  	<delete id="clubMemberDelete">
+  		delete from clubmember where userid=#{param1}
+  	</delete>
   </mapper>

@@ -185,20 +185,18 @@
 						<div id="review_info" class="row">
 							<div class="col-6"></div>
 							<div class="col-6">${rvo.username} &nbsp&nbsp&nbsp ${rvo.writedate}<!-- Split dropend button -->
+							 <c:if test="${rvo.userid == logId}">
 								<div class="btn-group dropend">
 								  <i  class=" dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-								    <span class="visually-hidden">Toggle Dropright</span>
+								  	<span class="visually-hidden">Toggle Dropright</span>
 								  </i>
-								  <c:if test="${rvo.userid == logId}">
-								   <ul class="dropdown-menu">
-								    <li class="dropdown-item"  onclick="location.href='${url}/main/club/${clubno}/review/${reivewno}/edit'" >수정하기</li>
+								  <ul class="dropdown-menu">
+								  	<li class="dropdown-item"  onclick="location.href='${url}/main/club/${clubno}/review/${reivewno}/edit'" >수정하기</li>
 								    <li class="dropdown-item" id="review_delete_btn">삭제하기</li>
 								  </ul>
 								 
-								  
-								  
-								  </c:if>
 								</div>
+								 </c:if>
 							</div>
 						</div>
 					</div>

@@ -43,4 +43,14 @@ public class MemberServiceImpl implements MemberService {
 		return dao.memberUpdate(vo);
 	}
 
+	@Override
+	public int memberDelete(String userid) {
+		return dao.memberDelete(userid);
+	}
+
+	@Override
+	public int memberIsAdmin(String clubadmin) {
+		return dao.memberIsAdmin(clubadmin);
+	}
+
 }

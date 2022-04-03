@@ -17,7 +17,43 @@
 <!--  google map -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw05Ou9RejxzFF1oBKzomAgPTwLdB8eqw&callback=initMap"></script>
 
-
+<style>
+	*{font-family: 'MaruBuri';}
+	html,body{height:100vh;postion:relative;}
+	li{font-size:0.9em;}
+	#wrap{margin:0; padding:0;}
+	.bi-search, .btn{border: 1px solid #C38F5C; color:white; background-color:#C38F5C;}
+	.carousel-inner{margin:0 auto;}
+	.card{float:left;width:29%;;margin:3% 2% 3% 2%; }
+	#wrap{width:100%;min-height: 100%;}
+	#navbar{}
+	#main{padding-top:20px; height: 100vh;}
+	#search_section{width:70%;}
+	#list_btn_container{text-align:center;}
+	#list_btn_container>#list_btn_group>button:nth-child(1){
+		border-top-left-radius:10px;
+		border-bottom-left-radius:10px;
+		border-right: 2px solid #ddd;
+		font-size:0.8em;
+	}
+	#list_btn_container>#list_btn_group>button:nth-child(2){
+		border-top-right-radius:10px;
+		border-bottom-right-radius:10px;
+		border-left: 2px solid #ddd;
+		font-size:0.8em;
+	
+	}
+	#info_section{padding-top:10px;}
+	#info_section_map{width:100%; height:70vh; border:1px solid gray;}
+	#joined_group{height:40%; margin:0 auto;}
+	#group_thubnail{width:60%; margin:0 auto; 
+		border-radius:100px;
+		margin-bottom:10px;
+	}
+	.col-4, .rounded{text-align:center;}
+	footer{}
+	
+</style>
 <script>
 	var flag_map = false;
 	
@@ -53,8 +89,31 @@
 		
 		//리뷰 작성 이동
 		$(document).on("click", "#write_btn", function(){
-			location.href='${url}/main/club/{clubno}/reivew_form';
+			location.href='${url}/main/club/${clubno}/review_form';
 		})
+		
+		//멤버 ㅊ대
+		$(document).on("click","#modal_btn_invite", function(){
+			var url = "${url}/main/club/invite"
+			var userid = $("#modal_invite_userid").val();
+			var clubno = ${clubno}
+			
+			$.ajax({
+				url:url,
+				type:"POST",
+				dataType: "JSON",
+				data:{
+					userid : userid,
+					clubno : clubno,
+				},
+				success:function(data){
+					alert(data.msg);
+				},
+				error:function(e){
+					alert(data.msg);
+				}
+			})
+		});
 	});
 	
 	//지도 검색
@@ -149,43 +208,6 @@
 		});//geoCoder.geocode
 	}
 </script>
-<style>
-	*{font-family: 'MaruBuri';}
-	html,body{height:100vh;postion:relative;}
-	li{font-size:0.9em;}
-	#wrap{margin:0; padding:0;}
-	.bi-search, .btn{border: 1px solid #C38F5C; color:white; background-color:#C38F5C;}
-	.carousel-inner{margin:0 auto;}
-	.card{float:left;width:29%;;margin:3% 2% 3% 2%; }
-	#wrap{width:100%;min-height: 100%;}
-	#navbar{}
-	#main{padding-top:20px; height: 100vh;}
-	#search_section{width:70%;}
-	#list_btn_container{text-align:center;}
-	#list_btn_container>#list_btn_group>button:nth-child(1){
-		border-top-left-radius:10px;
-		border-bottom-left-radius:10px;
-		border-right: 2px solid #ddd;
-		font-size:0.8em;
-	}
-	#list_btn_container>#list_btn_group>button:nth-child(2){
-		border-top-right-radius:10px;
-		border-bottom-right-radius:10px;
-		border-left: 2px solid #ddd;
-		font-size:0.8em;
-	
-	}
-	#info_section{padding-top:10px;}
-	#info_section_map{width:100%; height:70vh; border:1px solid gray;}
-	#joined_group{height:40%; margin:0 auto;}
-	#group_thubnail{width:60%; margin:0 auto; 
-		border-radius:100px;
-		margin-bottom:10px;
-	}
-	.col-4, .rounded{text-align:center;}
-	footer{}
-	
-</style>
 </head>
 <body>
 <div class="container-fluid" id="wrap">
@@ -200,7 +222,9 @@
 						<li class="nav-item"><a class="nav-link" href="${url}/main/mypage">마이페이지</a></li>
 						<li class="nav-item"><a class="nav-link" href="${url}/member/logout">로그아웃</a></li>
 						<li class="nav-item"><a class="nav-link"  data-bs-toggle="modal" data-bs-target="#modal_invite" >멤버 초대</a></li>
-						<li class="nav-item"><a class="nav-link" href="${url}/main/club/${cvo.no}/admin">그룹관리</a></li>
+						<c:if test="${cvo.clubadmin == logId}">
+							<li class="nav-item"><a class="nav-link" href="${url}/main/club/${cvo.no}/admin">그룹관리</a></li>
+						</c:if>
 					</ul>
 				</div>
 				
@@ -271,12 +295,12 @@
       </div>
       <div class="modal-body">
 			<div class="input-group mb-3">
-				<input type="text" class="form-control" id="modal_userid" placeholder="아이디 입력" maxlength="20">
+				<input type="text" class="form-control" id="modal_invite_userid" placeholder="아이디 입력" maxlength="20">
 			</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-bs-dismiss="modal">닫기</button>
-        <button type="button" class="btn">초대하기</button>
+        <button type="button" id="modal_btn_invite" class="btn">초대하기</button>
       </div>
     </div>
   </div>

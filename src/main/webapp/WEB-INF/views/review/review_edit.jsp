@@ -208,7 +208,7 @@
 		<div class="row">
 			<div class="col-4">
 				<div class="rounded mx-auto d-block" onclick="location.href='${url}/main/club/${clubno}'">
-	  				<img id="group_thubnail" src="${url}/static/img/hamburger_01.jpg"  alt="커버사진">
+	  				<img id="group_thubnail" src="${url}/static/img/${cvo.clubthumbnail}"  alt="커버사진">
 				</div>
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item" >${cvo.clubid}</li>
